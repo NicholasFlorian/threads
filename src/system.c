@@ -149,30 +149,29 @@ void* thread_func_red(void *arg) {
     static int order = 0;
 
 
-
     // variables
-    int *thread_id;
+    int thread_id; // notice how this thread is not an int, should have copyied the pointers value and not the pointer itself.
 
 
     // assign
     order++;
-    thread_id   = (int*) arg;
-    product_red = *thread_id - order;
+    thread_id   = * (int *) arg;
+    product_red = thread_id - order;
 
     // end lock after our global variable is complete
-    //pthread_mutex_unlock(&lock);
+    pthread_mutex_unlock(&lock);
 
     // prompt
-    printf("\x1b[31mRunning Thread :: %d;\x1b[0m\n", *thread_id);
+    printf("\x1b[31mRunning Thread :: %d;\x1b[0m\n", thread_id);
     printf("\t\x1b[31m(Thread: %d),\tOrder: %d,\tproduct: %d;\x1b[0m\n",
-        *thread_id,
+        thread_id,
         order,
         product_red);
-    printf("\t\x1b[31mEnd of Thread :: %d;\x1b[0m\n", *thread_id);
+    printf("\t\x1b[31mEnd of Thread :: %d;\x1b[0m\n", thread_id);
 
 
     // end lock after prompt
-    pthread_mutex_unlock(&lock);
+    //pthread_mutex_unlock(&lock);
 
     return NULL;
 }
